@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yt_dlp_gui/shell/yt_dlp_runner.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      YtDlpRunner().run();
       _counter++;
     });
   }
