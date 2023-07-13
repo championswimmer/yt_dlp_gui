@@ -40,7 +40,7 @@ class YtDlpRunner {
     if (Platform.isMacOS) ytDlpPath = ytDlpMacos;
     if (Platform.isWindows) ytDlpPath = ytDlpWinexe;
 
-    var results = await shell.run(ytDlpPath + " --version");
+    var results = await shell.run("$ytDlpPath --version");
     for (var element in results) { debugPrint(element.outText); }
   }
 }

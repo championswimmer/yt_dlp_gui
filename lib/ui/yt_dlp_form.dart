@@ -27,9 +27,8 @@ class _YtDlpFormState extends State<YtDlpForm> {
   }
 
   void setDlThumbnail(bool? value) {
-    setState(() {
-      _config = _config.set(dlThumbnail: value);
-    });
+    _config = _config.set(dlThumbnail: value);
+    setState(() {});
   }
 
   void setDlSubtitles(bool? value) {
@@ -40,9 +39,7 @@ class _YtDlpFormState extends State<YtDlpForm> {
 
   void setYtUrl(String? value) {
     if (value != _config.ytUrl) {
-      debugPrint(
-        "setYtUrl: $value : ${_config.ytUrl}",
-      );
+      debugPrint("setYtUrl: $value : ${_config.ytUrl}");
       _config = _config.set(ytUrl: value);
     }
   }
@@ -66,8 +63,7 @@ class _YtDlpFormState extends State<YtDlpForm> {
         TextCheckBox(
             label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
         FilledButton(
-            onPressed: () => print(YtDlpCommand(_config).buildCommand()),
-            child: Text("Download")),
+            onPressed: () => print(YtDlpCommand(_config).buildCommand()), child: Text("Download")),
       ],
     )));
   }
