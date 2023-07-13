@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/ui/yt_dlp_form.dart';
 
 void main() {
+  if (kReleaseMode) {
+    debugPrint = (String? message, {int? wrapWidth}) {};
+  }
   runApp(const MyApp());
 }
 

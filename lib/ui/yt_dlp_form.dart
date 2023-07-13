@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
+import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
+import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
+import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
 
 class YtDlpForm extends StatefulWidget {
   const YtDlpForm({super.key});
@@ -35,37 +38,37 @@ class _YtDlpFormState extends State<YtDlpForm> {
     });
   }
 
+  void setYtUrl(String? value) {
+    if (value != _config.ytUrl) {
+      debugPrint(
+        "setYtUrl: $value : ${_config.ytUrl}",
+      );
+      _config = _config.set(ytUrl: value);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget buildCheckBoxRow(
-        String label, bool value, void Function(bool?) onChanged) {
-      return Container(
-          constraints: const BoxConstraints(maxWidth: 300),
-          child: Row(
-            children: <Widget>[
-              Checkbox(
-                value: value,
-                onChanged: onChanged,
-              ),
-              Text(label),
-            ],
-          ));
-    }
-
     return Scaffold(
         body: Center(
-            heightFactor: double.infinity,
-            widthFactor: double.infinity,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                buildCheckBoxRow("Download Video", _config.dlVideo, setDlVideo),
-                buildCheckBoxRow("Download Audio", _config.dlAudio, setDlAudio),
-                buildCheckBoxRow(
-                    "Download Thumbnail", _config.dlThumbnail, setDlThumbnail),
-                buildCheckBoxRow(
-                    "Download Subtitles", _config.dlSubtitles, setDlSubtitles),
-              ],
-            )));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        TextInputField(
+          value: _config.ytUrl,
+          hintText: "Enter YouTube URL",
+          onChanged: setYtUrl,
+        ),
+        TextCheckBox(label: "Download Video", value: _config.dlVideo, onChanged: setDlVideo),
+        TextCheckBox(label: "Download Audio", value: _config.dlAudio, onChanged: setDlAudio),
+        TextCheckBox(
+            label: "Download Thumbnail", value: _config.dlThumbnail, onChanged: setDlThumbnail),
+        TextCheckBox(
+            label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
+        FilledButton(
+            onPressed: () => print(YtDlpCommand(_config).buildCommand()),
+            child: Text("Download")),
+      ],
+    )));
   }
 }
