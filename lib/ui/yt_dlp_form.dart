@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
+import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
+import 'package:yt_dlp_gui/ui/widgets/IntEnumDropDown.dart';
+import 'package:yt_dlp_gui/ui/widgets/StringEnumDropDown.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
 
@@ -62,8 +65,31 @@ class _YtDlpFormState extends State<YtDlpForm> {
             label: "Download Thumbnail", value: _config.dlThumbnail, onChanged: setDlThumbnail),
         TextCheckBox(
             label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
+        Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: const Column(
+            children: [
+              Row(
+                children: [
+                  IntEnumDropDown(VideoSize.values, label: "Video Size"),
+                  StringEnumDropDown(VideoFormat.values, label: "Video Format"),
+                ],
+              ),
+              Row(
+                children: [
+                  StringEnumDropDown(AudioFormat.values, label: "Audio Format"),
+                  IntEnumDropDown(AudioBitrate.values, label: "Audio Bitrate"),
+                ],
+              ),
+            ],
+          ),
+        ),
         FilledButton(
-            onPressed: () => print(YtDlpCommand(_config).buildCommand()), child: Text("Download")),
+            onPressed: () {
+              print(YtDlpCommand(_config).buildCommand());
+              debugPrint(VideoFormat.mp4.value);
+            },
+            child: const Text("Download")),
       ],
     )));
   }
