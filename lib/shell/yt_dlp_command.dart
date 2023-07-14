@@ -10,7 +10,7 @@ class YtDlpCommand {
 
   String buildCommand() {
     StringBuffer command = StringBuffer();
-    if (_config.dlVideo) command.write(" -k");
+    if (_config.dlVideo && _config.dlAudio) command.write(" -k");
     if (_config.dlAudio) command.write(" -x");
     if (_config.dlSubtitles) command.write(" --write-subs");
     if (_config.dlThumbnail) command.write(" --write-thumbnail");
@@ -28,7 +28,7 @@ class YtDlpCommand {
     return command.toString();
   }
 
-  void runCommand() {
+  void run() {
     YtDlpRunner(
       dlPath: _dlPath,
       command: buildCommand()

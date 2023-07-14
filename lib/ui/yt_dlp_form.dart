@@ -162,8 +162,11 @@ class _YtDlpFormState extends State<YtDlpForm> {
         ),
         FilledButton(
             onPressed: () {
-              debugPrint(YtDlpCommand(_config, _dlPath).buildCommand());
+              var cmd = YtDlpCommand(_config, _dlPath);
+              debugPrint(cmd.buildCommand());
               debugPrint("dlPath $_dlPath");
+              cmd.run();
+
             },
             child: const Text("Download")),
       ],
