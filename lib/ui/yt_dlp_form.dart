@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
@@ -15,6 +16,7 @@ class YtDlpForm extends StatefulWidget {
 
 class _YtDlpFormState extends State<YtDlpForm> {
   YtDlpConfig _config = YtDlpConfig.defaultConfig();
+  String _dlPath = "";
 
   void setDlAudio(bool? value) {
     setState(() {
@@ -82,6 +84,37 @@ class _YtDlpFormState extends State<YtDlpForm> {
           hintText: "Enter YouTube URL",
           onChanged: setYtUrl,
         ),
+        Container(
+          constraints: const BoxConstraints(minWidth: 200, maxWidth: 400),
+          child: Row(children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              constraints: const BoxConstraints(minWidth: 250, maxWidth: 350),
+              child: TextField(
+                controller: TextEditingController(text: _dlPath),
+                decoration: const InputDecoration(
+                  hintText: "Download Path",
+                  hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w200), // TODO: can put style elsewhere
+                ),
+                onChanged: (value) {},
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.folder_open),
+              onPressed: () {
+                FilePicker.platform.getDirectoryPath().then((value) {
+                  if (value != null) {
+                    setState(() {
+                      _dlPath = value;
+                    });
+                  }
+                });
+              },
+            )
+          ]),
+        ),
         TextCheckBox(label: "Download Video", value: _config.dlVideo, onChanged: setDlVideo),
         TextCheckBox(label: "Download Audio", value: _config.dlAudio, onChanged: setDlAudio),
         TextCheckBox(
@@ -129,7 +162,8 @@ class _YtDlpFormState extends State<YtDlpForm> {
         ),
         FilledButton(
             onPressed: () {
-              debugPrint(YtDlpCommand(_config).buildCommand());
+              debugPrint(YtDlpCommand(_config, _dlPath).buildCommand());
+              debugPrint("dlPath $_dlPath");
             },
             child: const Text("Download")),
       ],

@@ -2,9 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:process_run/shell.dart';
+import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
 
 class YtDlpRunner {
-  final shell = Shell();
+  final String dlPath;
+  final String command;
+
+  YtDlpRunner({required this.dlPath, required this.command});
+
   String appPath = Platform.resolvedExecutable;
 
   String get appDir =>
@@ -32,6 +37,8 @@ class YtDlpRunner {
           .path;
 
   Future<void> run() async {
+    final shell = Shell(workingDirectory: dlPath);
+
     // load yt-dlp from assets
     debugPrint('Loading yt-dlp from assets...');
     debugPrint('App path: $appPath');
@@ -40,7 +47,7 @@ class YtDlpRunner {
     if (Platform.isMacOS) ytDlpPath = ytDlpMacos;
     if (Platform.isWindows) ytDlpPath = ytDlpWinexe;
 
-    var results = await shell.run("$ytDlpPath --version");
+    var results = await shell.run("$ytDlpPath $command");
     for (var element in results) { debugPrint(element.outText); }
   }
 }

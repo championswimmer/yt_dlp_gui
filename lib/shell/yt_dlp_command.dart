@@ -1,10 +1,12 @@
 
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
+import 'package:yt_dlp_gui/shell/yt_dlp_runner.dart';
 
 class YtDlpCommand {
   final YtDlpConfig _config;
+  final String _dlPath;
 
-  YtDlpCommand(this._config);
+  YtDlpCommand(this._config, this._dlPath);
 
   String buildCommand() {
     StringBuffer command = StringBuffer();
@@ -24,5 +26,12 @@ class YtDlpCommand {
     command.write(" ${_config.ytUrl}");
 
     return command.toString();
+  }
+
+  void runCommand() {
+    YtDlpRunner(
+      dlPath: _dlPath,
+      command: buildCommand()
+    ).run();
   }
 }
