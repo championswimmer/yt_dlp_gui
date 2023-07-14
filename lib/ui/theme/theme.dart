@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  ThemeData get theme => ThemeData.from(
+  const AppTheme._();
+  static ThemeData get darkTheme => ThemeData.from(
         useMaterial3: true,
         textTheme: const TextTheme(
           displayLarge: TextStyle(

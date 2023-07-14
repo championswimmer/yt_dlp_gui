@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'yt-dlp-gui',
-      theme: AppTheme().theme,
+      theme: AppTheme.darkTheme,
       home: const MyHomePage(title: 'YouTube Downloader'),
     );
   }
