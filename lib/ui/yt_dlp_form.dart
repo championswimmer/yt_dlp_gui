@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
-import 'package:yt_dlp_gui/ui/widgets/IntEnumDropDown.dart';
-import 'package:yt_dlp_gui/ui/widgets/StringEnumDropDown.dart';
+import 'package:yt_dlp_gui/ui/widgets/EnumDropDown.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
 
@@ -71,14 +70,14 @@ class _YtDlpFormState extends State<YtDlpForm> {
             children: [
               Row(
                 children: [
-                  IntEnumDropDown(VideoSize.values, label: "Video Size"),
-                  StringEnumDropDown(VideoFormat.values, label: "Video Format"),
+                  EnumDropDown(VideoSize.values, label: "Video Size"),
+                  EnumDropDown(VideoFormat.values, label: "Video Format"),
                 ],
               ),
               Row(
                 children: [
-                  StringEnumDropDown(AudioFormat.values, label: "Audio Format"),
-                  IntEnumDropDown(AudioBitrate.values, label: "Audio Bitrate"),
+                  EnumDropDown(AudioFormat.values, label: "Audio Format"),
+                  EnumDropDown(AudioBitrate.values, label: "Audio Bitrate"),
                 ],
               ),
             ],
