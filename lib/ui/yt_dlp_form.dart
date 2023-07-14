@@ -94,14 +94,34 @@ class _YtDlpFormState extends State<YtDlpForm> {
             children: [
               Row(
                 children: [
-                  EnumDropDown(VideoSize.values, label: "Video Size", onSelected: setVideoSize),
-                  EnumDropDown(VideoFormat.values, label: "Video Format", onSelected: setVideoFormat),
+                  EnumDropDown(
+                    VideoSize.values,
+                    label: "Video Size",
+                    onSelected: setVideoSize,
+                    initialValue: VideoSize.v720p,
+                  ),
+                  EnumDropDown(
+                    VideoFormat.values,
+                    label: "Video Format",
+                    onSelected: setVideoFormat,
+                    initialValue: VideoFormat.mp4,
+                  ),
                 ],
               ),
               Row(
                 children: [
-                  EnumDropDown(AudioFormat.values, label: "Audio Format", onSelected: setAudioFormat),
-                  EnumDropDown(AudioBitrate.values, label: "Audio Bitrate", onSelected: setAudioBitrate),
+                  EnumDropDown(
+                    AudioFormat.values,
+                    label: "Audio Format",
+                    onSelected: setAudioFormat,
+                    initialValue: AudioFormat.mp3,
+                  ),
+                  EnumDropDown(
+                    AudioBitrate.values,
+                    label: "Audio Bitrate",
+                    onSelected: setAudioBitrate,
+                    initialValue: AudioBitrate.a32k,
+                  ),
                 ],
               ),
             ],

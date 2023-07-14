@@ -5,8 +5,9 @@ class EnumDropDown<T extends StringEnum> extends StatelessWidget {
   final List<T> keys;
   final String label;
   final ValueChanged<T?>? onSelected;
+  final T? initialValue;
 
-  const EnumDropDown(this.keys, {super.key, required this.label, this.onSelected});
+  const EnumDropDown(this.keys, {super.key, required this.label, this.onSelected, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class EnumDropDown<T extends StringEnum> extends StatelessWidget {
         onSelected: onSelected,
         dropdownMenuEntries: dropdownMenuEntries,
         label: Text(label),
+        initialSelection: initialValue ?? keys.first,
       ),
     );
   }
