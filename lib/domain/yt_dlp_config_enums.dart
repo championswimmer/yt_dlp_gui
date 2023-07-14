@@ -1,7 +1,13 @@
+abstract interface class StringEnum {
+  final String value;
+
+  const StringEnum(this.value);
+}
+
 /// VideoSize
 ///   enum for video sizes:
 ///   144p, 240p, 360p, 480p, 720p, 1080p, 1440p, 2160p
-enum VideoSize {
+enum VideoSize implements StringEnum {
   v144p("144"),
   v240p("240"),
   v360p("360"),
@@ -20,7 +26,7 @@ enum VideoSize {
 /// VideoFormat
 ///  enum for video formats:
 ///  mp4, webm, 3gp
-enum VideoFormat {
+enum VideoFormat implements StringEnum {
   mp4("mp4"),
   webm("webm"),
   threegp("3gp");
@@ -34,7 +40,7 @@ enum VideoFormat {
 /// AudioFormat
 /// enum for audio formats:
 /// mp3, m4a, flac
-enum AudioFormat {
+enum AudioFormat implements StringEnum {
   mp3("mp3"),
   m4a("m4a"),
   flac("flac");
@@ -48,7 +54,7 @@ enum AudioFormat {
 /// AudioBitrate
 ///  enum for audio bitrates:
 ///  22k, 24k, 32k, 44k, 48k, 64k, 96k, 128k, 160k, 192k, 256k
-enum AudioBitrate {
+enum AudioBitrate implements StringEnum {
   a22k("22"),
   a24k("24"),
   a32k("32"),

@@ -46,6 +46,30 @@ class _YtDlpFormState extends State<YtDlpForm> {
     }
   }
 
+  void setVideoSize(VideoSize? value) {
+    setState(() {
+      _config = _config.set(vSize: value);
+    });
+  }
+
+  void setAudioBitrate(AudioBitrate? value) {
+    setState(() {
+      _config = _config.set(aBitrate: value);
+    });
+  }
+
+  void setVideoFormat(VideoFormat? value) {
+    setState(() {
+      _config = _config.set(vFormat: value);
+    });
+  }
+
+  void setAudioFormat(AudioFormat? value) {
+    setState(() {
+      _config = _config.set(aFormat: value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,18 +90,18 @@ class _YtDlpFormState extends State<YtDlpForm> {
             label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
         Container(
           constraints: const BoxConstraints(maxWidth: 400),
-          child: const Column(
+          child: Column(
             children: [
               Row(
                 children: [
-                  EnumDropDown(VideoSize.values, label: "Video Size"),
-                  EnumDropDown(VideoFormat.values, label: "Video Format"),
+                  EnumDropDown(VideoSize.values, label: "Video Size", onSelected: setVideoSize),
+                  EnumDropDown(VideoFormat.values, label: "Video Format", onSelected: setVideoFormat),
                 ],
               ),
               Row(
                 children: [
-                  EnumDropDown(AudioFormat.values, label: "Audio Format"),
-                  EnumDropDown(AudioBitrate.values, label: "Audio Bitrate"),
+                  EnumDropDown(AudioFormat.values, label: "Audio Format", onSelected: setAudioFormat),
+                  EnumDropDown(AudioBitrate.values, label: "Audio Bitrate", onSelected: setAudioBitrate),
                 ],
               ),
             ],
@@ -85,8 +109,7 @@ class _YtDlpFormState extends State<YtDlpForm> {
         ),
         FilledButton(
             onPressed: () {
-              print(YtDlpCommand(_config).buildCommand());
-              debugPrint(VideoFormat.mp4.value);
+              debugPrint(YtDlpCommand(_config).buildCommand());
             },
             child: const Text("Download")),
       ],
