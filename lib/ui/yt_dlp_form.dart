@@ -7,7 +7,7 @@ import 'package:yt_dlp_gui/ui/widgets/EnumDropDown.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
 
-ValueNotifier<MaterialStatesController> downloadButtonNotifer =
+ValueNotifier<MaterialStatesController> downloadButtonNotifier =
     ValueNotifier(MaterialStatesController());
 ValueNotifier<double> downloadPercentageNotifier = ValueNotifier(0);
 
@@ -22,12 +22,6 @@ class _YtDlpFormState extends State<YtDlpForm> {
   YtDlpConfig _config = YtDlpConfig.defaultConfig();
 
   String _dlPath = "";
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   void setDlAudio(bool? value) {
     setState(() {
@@ -183,7 +177,7 @@ class _YtDlpFormState extends State<YtDlpForm> {
           ),
         ),
         ValueListenableBuilder(
-            valueListenable: downloadButtonNotifer,
+            valueListenable: downloadButtonNotifier,
             builder: (context, value, child) {
               if (value.value.contains(MaterialState.disabled)) {
                 return ValueListenableBuilder(
@@ -198,12 +192,12 @@ class _YtDlpFormState extends State<YtDlpForm> {
                     });
               }
               return FilledButton(
-                  statesController: downloadButtonNotifer.value,
+                  statesController: downloadButtonNotifier.value,
                   onPressed: () {
-                    downloadButtonNotifer.value
+                    downloadButtonNotifier.value
                         .update(MaterialState.disabled, true);
                     //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
-                    downloadButtonNotifer.notifyListeners();
+                    downloadButtonNotifier.notifyListeners();
                     var cmd = YtDlpCommand(_config, _dlPath);
                     debugPrint(cmd.buildCommand());
                     debugPrint("dlPath $_dlPath");

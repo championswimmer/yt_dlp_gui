@@ -65,9 +65,10 @@ class YtDlpRunner {
     if (Platform.isWindows) ytDlpPath = ytDlpWinexe;
 
     var results = await shell.run("$ytDlpPath $command");
-    downloadButtonNotifer.value.update(MaterialState.disabled, false);
+    downloadButtonNotifier.value.update(MaterialState.disabled, false);
     //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
-    downloadButtonNotifer.notifyListeners();
+    downloadButtonNotifier.notifyListeners();
+    downloadPercentageNotifier.value = 0;
     for (var element in results) {
       debugPrint(element.outText);
     }
