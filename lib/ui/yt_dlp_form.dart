@@ -7,6 +7,10 @@ import 'package:yt_dlp_gui/ui/widgets/EnumDropDown.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
 import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
 
+ValueNotifier<MaterialStatesController> downloadButtonNotifer =
+    ValueNotifier(MaterialStatesController());
+ValueNotifier<double> downloadPercentageNotifier = ValueNotifier(0);
+
 class YtDlpForm extends StatefulWidget {
   const YtDlpForm({super.key});
 
@@ -16,7 +20,14 @@ class YtDlpForm extends StatefulWidget {
 
 class _YtDlpFormState extends State<YtDlpForm> {
   YtDlpConfig _config = YtDlpConfig.defaultConfig();
+
   String _dlPath = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   void setDlAudio(bool? value) {
     setState(() {
@@ -96,7 +107,8 @@ class _YtDlpFormState extends State<YtDlpForm> {
                   hintText: "Download Path",
                   hintStyle: TextStyle(
                       color: Colors.grey,
-                      fontWeight: FontWeight.w200), // TODO: can put style elsewhere
+                      fontWeight:
+                          FontWeight.w200), // TODO: can put style elsewhere
                 ),
                 onChanged: (value) {},
               ),
@@ -115,12 +127,22 @@ class _YtDlpFormState extends State<YtDlpForm> {
             )
           ]),
         ),
-        TextCheckBox(label: "Download Video", value: _config.dlVideo, onChanged: setDlVideo),
-        TextCheckBox(label: "Download Audio", value: _config.dlAudio, onChanged: setDlAudio),
         TextCheckBox(
-            label: "Download Thumbnail", value: _config.dlThumbnail, onChanged: setDlThumbnail),
+            label: "Download Video",
+            value: _config.dlVideo,
+            onChanged: setDlVideo),
         TextCheckBox(
-            label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
+            label: "Download Audio",
+            value: _config.dlAudio,
+            onChanged: setDlAudio),
+        TextCheckBox(
+            label: "Download Thumbnail",
+            value: _config.dlThumbnail,
+            onChanged: setDlThumbnail),
+        TextCheckBox(
+            label: "Download Subtitles",
+            value: _config.dlSubtitles,
+            onChanged: setDlSubtitles),
         Container(
           constraints: const BoxConstraints(maxWidth: 400),
           child: Column(
@@ -160,15 +182,35 @@ class _YtDlpFormState extends State<YtDlpForm> {
             ],
           ),
         ),
-        FilledButton(
-            onPressed: () {
-              var cmd = YtDlpCommand(_config, _dlPath);
-              debugPrint(cmd.buildCommand());
-              debugPrint("dlPath $_dlPath");
-              cmd.run();
-
-            },
-            child: const Text("Download")),
+        ValueListenableBuilder(
+            valueListenable: downloadButtonNotifer,
+            builder: (context, value, child) {
+              if (value.value.contains(MaterialState.disabled)) {
+                return ValueListenableBuilder(
+                    valueListenable: downloadPercentageNotifier,
+                    builder: (context, percentage, child) {
+                      if (percentage == 0) {
+                        return const Text("Loading yt-dlp...");
+                      }
+                      return CircularProgressIndicator(
+                        value: percentage / 100,
+                      );
+                    });
+              }
+              return FilledButton(
+                  statesController: downloadButtonNotifer.value,
+                  onPressed: () {
+                    downloadButtonNotifer.value
+                        .update(MaterialState.disabled, true);
+                    //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
+                    downloadButtonNotifer.notifyListeners();
+                    var cmd = YtDlpCommand(_config, _dlPath);
+                    debugPrint(cmd.buildCommand());
+                    debugPrint("dlPath $_dlPath");
+                    cmd.run();
+                  },
+                  child: const Text("Download"));
+            }),
       ],
     )));
   }
