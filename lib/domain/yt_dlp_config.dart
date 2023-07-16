@@ -1,4 +1,3 @@
-
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 
 /// YtDlpConfig
@@ -21,7 +20,6 @@ class YtDlpConfig {
   final VideoFormat vFormat;
   final AudioFormat aFormat;
 
-
   /// Constructor
   const YtDlpConfig({
     required this.ytUrl,
@@ -34,7 +32,6 @@ class YtDlpConfig {
     required this.vFormat,
     required this.aFormat,
   });
-
 
   @override
   String toString() {
