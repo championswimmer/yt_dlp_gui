@@ -16,6 +16,7 @@ class TextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController(text: value);
+    final theme = Theme.of(context);
     controller.addListener(() {
       onChanged!(controller.text);
     });
@@ -26,9 +27,7 @@ class TextInputField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.w200), // TODO: can put style elsewhere
+          hintStyle: theme.textTheme.titleSmall?.copyWith(color: Colors.grey),
         ),
       ),
     );
