@@ -40,12 +40,13 @@ class YtDlpRunner {
     var controller = ShellLinesController();
 
     final shell = Shell(
-        workingDirectory: dlPath, stdout: controller.sink, verbose: false);
+        workingDirectory: dlPath, stdout: controller.sink, verbose: true);
     //regex to extract download progress
     final RegExp downloadProgressRegExp = RegExp(r'\[download\]\s+(\d+\.\d+)%');
     // listen to stdout
     controller.stream.listen((event) {
       if (event.startsWith('[download]')) {
+        debugPrint(event);
         var match = downloadProgressRegExp.firstMatch(event);
         if (match != null && match.group(1) != null) {
           var downloadPercentage = double.parse(match.group(1)!);
@@ -69,8 +70,5 @@ class YtDlpRunner {
     //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
     downloadButtonNotifier.notifyListeners();
     downloadPercentageNotifier.value = 0;
-    for (var element in results) {
-      debugPrint(element.outText);
-    }
   }
 }
