@@ -20,7 +20,9 @@ class YtDlpCommand {
     }
 
     // video size and format
-    command.write(" -S \"res:${_config.vSize.value},ext:${_config.vFormat.value}\"");
+    // command.write(" -S \"res:${_config.vSize.value}\"");
+    command.write(" -f \"best[height=${_config.vSize.value}]\"");
+    command.write(" --remux-video \"${_config.vFormat.value}\"");
     // audio bitrate
     command.write(" --audio-quality ${_config.aBitrate.value}k");
     // audio format

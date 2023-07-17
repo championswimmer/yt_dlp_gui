@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
-import 'package:yt_dlp_gui/ui/widgets/EnumDropDown.dart';
-import 'package:yt_dlp_gui/ui/widgets/TextCheckBox.dart';
-import 'package:yt_dlp_gui/ui/widgets/TextInputField.dart';
+import 'package:yt_dlp_gui/ui/widgets/enum_drop_down.dart';
+import 'package:yt_dlp_gui/ui/widgets/text_checkbox.dart';
+import 'package:yt_dlp_gui/ui/widgets/text_input_field.dart';
 import 'package:yt_dlp_gui/ui/widgets/time_input_field.dart';
 
 ValueNotifier<MaterialStatesController> downloadButtonNotifier =

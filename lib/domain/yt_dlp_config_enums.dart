@@ -29,6 +29,8 @@ enum VideoSize implements StringEnum {
 enum VideoFormat implements StringEnum {
   mp4("mp4"),
   webm("webm"),
+  mkv("mkv"),
+  flv("flv"),
   threegp("3gp");
 
   @override
