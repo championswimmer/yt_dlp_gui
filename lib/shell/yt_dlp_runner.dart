@@ -40,7 +40,7 @@ class YtDlpRunner {
     var controller = ShellLinesController();
 
     final shell = Shell(
-        workingDirectory: dlPath, stdout: controller.sink, verbose: true);
+        workingDirectory: dlPath, stdout: controller.sink, verbose: false);
     //regex to extract download progress
     final RegExp downloadProgressRegExp = RegExp(r'\[download\]\s+(\d+\.\d+)%');
     // listen to stdout

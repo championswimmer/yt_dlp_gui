@@ -14,6 +14,11 @@ class YtDlpCommand {
     if (_config.dlAudio) command.write(" -x");
     if (_config.dlSubtitles) command.write(" --write-subs");
     if (_config.dlThumbnail) command.write(" --write-thumbnail");
+
+    if (_config.startTime != null && _config.endTime != null) {
+      command.write("--download-sections \"*${_config.startTime}-${_config.endTime}\"");
+    }
+
     // video size and format
     command.write(" -S \"res:${_config.vSize.value},ext:${_config.vFormat.value}\"");
     // audio bitrate
