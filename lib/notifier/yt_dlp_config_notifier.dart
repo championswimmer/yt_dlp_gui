@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 
-class YtDlpConfigNotifier extends Notifier {
+class YtDlpConfigNotifier extends Notifier<YtDlpConfig> {
   final YtDlpConfig _config;
 
   YtDlpConfigNotifier(this._config);
@@ -49,4 +49,16 @@ class YtDlpConfigNotifier extends Notifier {
   void setAudioFormat(AudioFormat? audioFormat) {
     state = state.set(aFormat: audioFormat);
   }
+
+  void setStartTime(String? value) {
+    state = state.set(startTime: value);
+  }
+
+  void setEndTime(String? value) {
+    state = state.set(endTime: value);
+  }
 }
+
+final ytDlpConfigProvider = NotifierProvider<YtDlpConfigNotifier, YtDlpConfig>(
+  () => YtDlpConfigNotifier(YtDlpConfig.defaultConfig()),
+);

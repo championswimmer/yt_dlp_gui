@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextInputField extends StatelessWidget {
+class TextInputField extends StatefulWidget {
   final String value;
   final String hintText;
 
@@ -14,22 +14,40 @@ class TextInputField extends StatelessWidget {
       required this.onChanged});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController(text: value);
-    final theme = Theme.of(context);
+  State<TextInputField> createState() => _TextInputFieldState();
+}
+
+class _TextInputFieldState extends State<TextInputField> {
+  late TextEditingController controller =
+      TextEditingController(text: widget.value);
+  @override
+  void initState() {
     controller.addListener(() {
-      onChanged!(controller.text);
+      widget.onChanged!(controller.text);
     });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       constraints: const BoxConstraints(minWidth: 200, maxWidth: 400),
       padding: const EdgeInsets.all(10),
       child: TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: theme.textTheme.titleSmall?.copyWith(color: Colors.grey),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
