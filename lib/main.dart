@@ -1,13 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yt_dlp_gui/ui/theme/theme.dart';
 import 'package:yt_dlp_gui/ui/yt_dlp_form.dart';
+import 'package:yt_dlp_gui/utils/provider_logger.dart';
 
 void main() {
   if (kReleaseMode) {
     debugPrint = (String? message, {int? wrapWidth}) {};
   }
-  runApp(const MyApp());
+  runApp(ProviderScope(
+    // To turn off the state debug logs, set isLoggingEnabled to false.
+    observers: [Logger(isLoggingEnabled: true)],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
