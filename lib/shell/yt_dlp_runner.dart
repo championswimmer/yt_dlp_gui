@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:process_run/shell.dart';
-import 'package:yt_dlp_gui/ui/yt_dlp_form.dart';
+import 'package:yt_dlp_gui/features/download_form/view/download_form_page.dart';
+
 
 class YtDlpRunner {
   final String dlPath;
