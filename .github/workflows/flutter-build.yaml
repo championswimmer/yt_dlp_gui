@@ -3,7 +3,7 @@ name: Flutter CI
 on: 
     push: 
         branches: 
-            - master
+            - main
         tags: 
             - v*
 
