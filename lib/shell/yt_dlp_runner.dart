@@ -1,7 +1,7 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:process_run/shell.dart';
-import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
 import 'package:yt_dlp_gui/ui/yt_dlp_form.dart';
 
 class YtDlpRunner {
@@ -12,35 +12,27 @@ class YtDlpRunner {
 
   String appPath = Platform.resolvedExecutable;
 
-  String get appDir =>
-      appPath.substring(0, appPath.lastIndexOf(Platform.pathSeparator));
+  String get appDir => appPath.substring(0, appPath.lastIndexOf(Platform.pathSeparator));
 
-  String get ytDlpWinexe =>
-      Directory("$appDir\\data\\flutter_assets\\assets\\executable")
-          .listSync()
-          .where((element) => element.path.endsWith('yt-dlp.exe'))
-          .first
-          .path;
+  String get ytDlpWinexe => Directory("$appDir\\data\\flutter_assets\\assets\\executable")
+      .listSync()
+      .where((element) => element.path.endsWith('yt-dlp.exe'))
+      .first
+      .path;
 
-  String get ytDlpMacos => Directory(
-          "$appDir/../Frameworks/App.Framework/Resources/flutter_assets/assets/executable")
+  String get ytDlpMacos => Directory("$appDir/../Frameworks/App.Framework/Resources/flutter_assets/assets/executable")
       .listSync()
       .where((element) => element.path.endsWith('yt-dlp_macos'))
       .first
       .path;
 
   // TODO: fix linux
-  String get ytDlpLinux =>
-      Directory("$appDir/data/flutter_assets/assets/executable")
-          .listSync()
-          .first
-          .path;
+  String get ytDlpLinux => Directory("$appDir/data/flutter_assets/assets/executable").listSync().first.path;
 
   Future<void> run() async {
     var controller = ShellLinesController();
 
-    final shell = Shell(
-        workingDirectory: dlPath, stdout: controller.sink, verbose: false);
+    final shell = Shell(workingDirectory: dlPath, stdout: controller.sink, verbose: false);
     //regex to extract download progress
     final RegExp downloadProgressRegExp = RegExp(r'\[download\]\s+(\d+\.\d+)%');
     // listen to stdout

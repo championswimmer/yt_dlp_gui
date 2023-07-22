@@ -1,4 +1,3 @@
-
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 
 /// YtDlpConfig
@@ -7,6 +6,7 @@ import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 /// [dlAudio] - Download audio flag
 /// [dlThumbnail] - Download thumbnail flag
 /// [dlSubtitles] - Download subtitles flag
+/// [sponsorBlock] - SponsorBlock flag
 class YtDlpConfig {
   final String ytUrl;
 
@@ -24,6 +24,7 @@ class YtDlpConfig {
   final VideoFormat vFormat;
   final AudioFormat aFormat;
 
+  final bool sponsorBlock;
 
   /// Constructor
   const YtDlpConfig({
@@ -38,8 +39,8 @@ class YtDlpConfig {
     required this.aBitrate,
     required this.vFormat,
     required this.aFormat,
+    required this.sponsorBlock,
   });
-
 
   @override
   String toString() {
@@ -60,6 +61,7 @@ class YtDlpConfig {
       aBitrate: AudioBitrate.a44k,
       vFormat: VideoFormat.mp4,
       aFormat: AudioFormat.mp3,
+      sponsorBlock: false,
     );
   }
 
@@ -76,6 +78,7 @@ class YtDlpConfig {
     AudioBitrate? aBitrate,
     VideoFormat? vFormat,
     AudioFormat? aFormat,
+    bool? sponsorBlock,
   }) =>
       YtDlpConfig(
         ytUrl: ytUrl ?? this.ytUrl,
@@ -89,5 +92,6 @@ class YtDlpConfig {
         aBitrate: aBitrate ?? this.aBitrate,
         vFormat: vFormat ?? this.vFormat,
         aFormat: aFormat ?? this.aFormat,
+        sponsorBlock: sponsorBlock ?? this.sponsorBlock,
       );
 }

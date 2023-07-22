@@ -8,9 +8,8 @@ import 'package:yt_dlp_gui/ui/widgets/text_checkbox.dart';
 import 'package:yt_dlp_gui/ui/widgets/text_input_field.dart';
 import 'package:yt_dlp_gui/ui/widgets/time_input_field.dart';
 
-ValueNotifier<MaterialStatesController> downloadButtonNotifier =
-    ValueNotifier(MaterialStatesController());
-ValueNotifier<double> downloadPercentageNotifier = ValueNotifier(0);
+final ValueNotifier<MaterialStatesController> downloadButtonNotifier = ValueNotifier(MaterialStatesController());
+final ValueNotifier<double> downloadPercentageNotifier = ValueNotifier(0);
 
 class YtDlpForm extends StatefulWidget {
   const YtDlpForm({super.key});
@@ -90,6 +89,12 @@ class _YtDlpFormState extends State<YtDlpForm> {
     });
   }
 
+  void setSponsorBlock(bool? value) {
+    setState(() {
+      _config = _config.set(sponsorBlock: value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,9 +117,8 @@ class _YtDlpFormState extends State<YtDlpForm> {
                 controller: TextEditingController(text: _dlPath),
                 decoration: const InputDecoration(
                   hintText: "Download Path",
-                  hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w200), // TODO: can put style elsewhere
+                  hintStyle:
+                      TextStyle(color: Colors.grey, fontWeight: FontWeight.w200), // TODO: can put style elsewhere
                 ),
                 onChanged: (value) {},
               ),
@@ -133,29 +137,28 @@ class _YtDlpFormState extends State<YtDlpForm> {
             )
           ]),
         ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                constraints: const BoxConstraints(maxWidth: 200),
-                child: TimeInputField(
-                  onChanged: setStartTime,
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: TimeInputField(
+                onChanged: setStartTime,
               ),
-              Container(
-                constraints: const BoxConstraints(maxWidth: 200),
-                child: TimeInputField(
-                  onChanged: setEndTime,
-                ),
+            ),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: TimeInputField(
+                onChanged: setEndTime,
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
         TextCheckBox(label: "Download Video", value: _config.dlVideo, onChanged: setDlVideo),
         TextCheckBox(label: "Download Audio", value: _config.dlAudio, onChanged: setDlAudio),
-        TextCheckBox(
-            label: "Download Thumbnail", value: _config.dlThumbnail, onChanged: setDlThumbnail),
-        TextCheckBox(
-            label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
+        TextCheckBox(label: "Download Thumbnail", value: _config.dlThumbnail, onChanged: setDlThumbnail),
+        TextCheckBox(label: "Download Subtitles", value: _config.dlSubtitles, onChanged: setDlSubtitles),
+        TextCheckBox(label: "Sponsor Block", value: _config.sponsorBlock, onChanged: setSponsorBlock),
         Container(
           constraints: const BoxConstraints(maxWidth: 400),
           child: Column(
@@ -211,17 +214,18 @@ class _YtDlpFormState extends State<YtDlpForm> {
                     });
               }
               return FilledButton(
-                  statesController: downloadButtonNotifier.value,
-                  onPressed: () {
-                    downloadButtonNotifier.value.update(MaterialState.disabled, true);
-                    //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
-                    downloadButtonNotifier.notifyListeners();
-                    var cmd = YtDlpCommand(_config, _dlPath);
-                    debugPrint(cmd.buildCommand());
-                    debugPrint("dlPath $_dlPath");
-                    cmd.run();
-                  },
-                  child: const Text("Download"));
+                statesController: downloadButtonNotifier.value,
+                onPressed: () {
+                  downloadButtonNotifier.value.update(MaterialState.disabled, true);
+                  //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
+                  downloadButtonNotifier.notifyListeners();
+                  var cmd = YtDlpCommand(_config, _dlPath);
+                  debugPrint(cmd.buildCommand());
+                  debugPrint("dlPath $_dlPath");
+                  cmd.run();
+                },
+                child: const Text("Download"),
+              );
             }),
       ],
     )));

@@ -1,4 +1,3 @@
-
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/shell/yt_dlp_runner.dart';
 
@@ -14,6 +13,8 @@ class YtDlpCommand {
     if (_config.dlAudio) command.write(" -x");
     if (_config.dlSubtitles) command.write(" --write-subs");
     if (_config.dlThumbnail) command.write(" --write-thumbnail");
+    // sponsor block
+    if (_config.sponsorBlock) command.write(" --sponsorblock-remove all");
 
     if (_config.startTime != null && _config.endTime != null) {
       command.write("--download-sections \"*${_config.startTime}-${_config.endTime}\"");
@@ -28,8 +29,6 @@ class YtDlpCommand {
     // audio format
     command.write(" --audio-format ${_config.aFormat.value}");
 
-
-
     command.write(" ${_config.ytUrl}");
 
     return command.toString();
@@ -38,7 +37,7 @@ class YtDlpCommand {
   void run() {
     YtDlpRunner(
       dlPath: _dlPath,
-      command: buildCommand()
+      command: buildCommand(),
     ).run();
   }
 }
