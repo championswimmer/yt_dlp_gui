@@ -14,7 +14,7 @@ class YtDlpCommand {
     if (_config.dlSubtitles) command.write(" --write-subs");
     if (_config.dlThumbnail) command.write(" --write-thumbnail");
     // sponsor block
-    if (_config.sponsorBlock) command.write(" --no-sponsorblock");
+    if (_config.sponsorBlock) command.write(" --sponsorblock-remove all");
 
     if (_config.startTime != null && _config.endTime != null) {
       command.write("--download-sections \"*${_config.startTime}-${_config.endTime}\"");
