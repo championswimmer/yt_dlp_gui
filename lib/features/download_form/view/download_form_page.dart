@@ -1,5 +1,4 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,7 +91,7 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
       downloadButtonNotifier.value.update(MaterialState.disabled, true);
       //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
       downloadButtonNotifier.notifyListeners();
-      final _config = YtDlpConfig(
+      final config = YtDlpConfig(
         ytUrl: ytUrl,
         startTime: startTime,
         endTime: endTime,
@@ -106,7 +105,7 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
         aFormat: audioformat,
         sponsorBlock: sponsorblock ?? false,
       );
-      var cmd = YtDlpCommand(_config, path);
+      var cmd = YtDlpCommand(config, path);
       debugPrint(cmd.buildCommand());
       debugPrint("dlPath $path");
       cmd.run();
