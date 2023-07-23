@@ -17,7 +17,8 @@ class YtDlpCommand {
     if (_config.sponsorBlock) command.write(" --sponsorblock-remove all");
 
     if (_config.startTime != null && _config.endTime != null) {
-      command.write("--download-sections \"*${_config.startTime}-${_config.endTime}\"");
+      command.write(
+          "--download-sections \"*${_config.startTime}-${_config.endTime}\"");
     }
 
     // video size and format
@@ -34,10 +35,17 @@ class YtDlpCommand {
     return command.toString();
   }
 
-  void run() {
-    YtDlpRunner(
-      dlPath: _dlPath,
-      command: buildCommand(),
-    ).run();
+  void run({
+    required void Function(double progress) onDownloading,
+    required void Function() onComplete,
+    required void Function(String error) onError,
+    required void Function() onAlreadyDownloaded,
+  }) {
+    YtDlpRunner(dlPath: _dlPath, command: buildCommand()).run(
+      onComplete: onComplete,
+      onDownloading: onDownloading,
+      onError: onError,
+      onAlreadyDownloaded: onAlreadyDownloaded,
+    );
   }
 }
