@@ -7,6 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 import 'package:yt_dlp_gui/features/download_form/const/download_form_const.dart';
+import 'package:yt_dlp_gui/features/download_form/controller/download_notifier_pod.dart';
 import 'package:yt_dlp_gui/features/download_form/controller/url_pod.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/audio_bitrate_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/audio_format_dropdown.dart';
@@ -20,11 +21,7 @@ import 'package:yt_dlp_gui/features/download_form/view/widget/thumbnail_viewer.d
 import 'package:yt_dlp_gui/features/download_form/view/widget/video_format_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/video_size_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/yt_url_field.dart';
-import 'package:yt_dlp_gui/shell/yt_dlp_command.dart';
-
-final ValueNotifier<MaterialStatesController> downloadButtonNotifier =
-    ValueNotifier(MaterialStatesController());
-final ValueNotifier<double> downloadPercentageNotifier = ValueNotifier(0);
+import 'package:yt_dlp_gui/shared/helper/global_helper.dart';
 
 class DownloadFormPage extends StatelessWidget {
   const DownloadFormPage({Key? key}) : super(key: key);
@@ -42,7 +39,8 @@ class DownloadFormView extends ConsumerStatefulWidget {
   ConsumerState<DownloadFormView> createState() => _DownloadFormViewState();
 }
 
-class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
+class _DownloadFormViewState extends ConsumerState<DownloadFormView>
+    with GlobalHelper {
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -87,28 +85,37 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
 
       final sponsorblock =
           fields?[DownloadFormConst.sponsorBlock]?.value as bool?;
-
-      downloadButtonNotifier.value.update(MaterialState.disabled, true);
-      //callig notifyListeners() here cuz dart object equality doesn't recognize changes in the value of the object
-      downloadButtonNotifier.notifyListeners();
-      final config = YtDlpConfig(
-        ytUrl: ytUrl,
-        startTime: startTime,
-        endTime: endTime,
-        dlVideo: downloadoptionrecord.contains('video'),
-        dlAudio: downloadoptionrecord.contains('audio'),
-        dlThumbnail: downloadoptionrecord.contains('thumbnail'),
-        dlSubtitles: downloadoptionrecord.contains('subtitle'),
-        vSize: videosize,
-        aBitrate: audiobitrate,
-        vFormat: videoformat,
-        aFormat: audioformat,
-        sponsorBlock: sponsorblock ?? false,
-      );
-      var cmd = YtDlpCommand(config, path);
-      debugPrint(cmd.buildCommand());
-      debugPrint("dlPath $path");
-      cmd.run();
+      ref.read(downloadNotifierStatePod.notifier).startDownload(
+            config: YtDlpConfig(
+              ytUrl: ytUrl,
+              startTime: startTime,
+              endTime: endTime,
+              dlVideo: downloadoptionrecord.contains('video'),
+              dlAudio: downloadoptionrecord.contains('audio'),
+              dlThumbnail: downloadoptionrecord.contains('thumbnail'),
+              dlSubtitles: downloadoptionrecord.contains('subtitle'),
+              vSize: videosize,
+              aBitrate: audiobitrate,
+              vFormat: videoformat,
+              aFormat: audioformat,
+              sponsorBlock: sponsorblock ?? false,
+            ),
+            dlPath: path,
+            onCompleted: () {
+              showInfoSnack(
+                  child: "Download completed".text.isIntrinsic.make());
+            },
+            onError: (error) {
+              showErrorSnack(
+                child: error.text.isIntrinsic.make(),
+                duration: const Duration(seconds: 10),
+              );
+            },
+            onAlreadyDownloaded: () {
+              showInfoSnack(
+                  child: "File Already downloaded!".text.isIntrinsic.make());
+            },
+          );
     }
   }
 
