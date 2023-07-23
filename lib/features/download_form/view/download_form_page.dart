@@ -104,34 +104,28 @@ class _DownloadFormViewState extends State<DownloadFormView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: 'Yt downloader'.text.make(),
-        automaticallyImplyLeading: false,
-      ),
-      body: FormBuilder(
-        key: _formKey,
-        child: <Widget>[
-          YtUrlField(),
-          FolderPickerField(onFolderClicked: selectFolder),
-          <Widget>[
-            const StartDurationField().flexible(),
-            12.widthBox,
-            const EndDurationField().flexible(),
-          ]
-              .hStack(
-                alignment: MainAxisAlignment.spaceAround,
-              )
-              .py8(),
-          const DownloadCheckboxes(),
-          const SponsorCheckbox(),
-          const VideoSizeDropdown(),
-          const VideoFormatDropdown(),
-          const AudioFormatDropdown(),
-          const AudioBitrateDropdown(),
-          DownloadButton(onDownload: downloadClicked),
-        ].vStack().p16().scrollVertical().safeArea(),
-      ),
+    return FormBuilder(
+      key: _formKey,
+      child: <Widget>[
+        const YtUrlField(),
+        FolderPickerField(onFolderClicked: selectFolder),
+        <Widget>[
+          const StartDurationField().flexible(),
+          12.widthBox,
+          const EndDurationField().flexible(),
+        ]
+            .hStack(
+              alignment: MainAxisAlignment.spaceAround,
+            )
+            .py8(),
+        const DownloadCheckboxes(),
+        const SponsorCheckbox(),
+        const VideoSizeDropdown(),
+        const VideoFormatDropdown(),
+        const AudioFormatDropdown(),
+        const AudioBitrateDropdown(),
+        DownloadButton(onDownload: downloadClicked),
+      ].vStack().p16().scrollVertical().safeArea(),
     );
   }
 }
