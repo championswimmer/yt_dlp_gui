@@ -1,13 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import 'package:yt_dlp_gui/domain/yt_dlp_config.dart';
 import 'package:yt_dlp_gui/domain/yt_dlp_config_enums.dart';
 import 'package:yt_dlp_gui/features/download_form/const/download_form_const.dart';
-import 'package:yt_dlp_gui/features/download_form/controller/url_pod.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/audio_bitrate_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/audio_format_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/download_button.dart';
@@ -16,7 +14,6 @@ import 'package:yt_dlp_gui/features/download_form/view/widget/end_duration_field
 import 'package:yt_dlp_gui/features/download_form/view/widget/folder_picker_field.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/sponsor_checkbox.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/start_duration_field.dart';
-import 'package:yt_dlp_gui/features/download_form/view/widget/thumbnail_viewer.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/video_format_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/video_size_dropdown.dart';
 import 'package:yt_dlp_gui/features/download_form/view/widget/yt_url_field.dart';
@@ -35,14 +32,14 @@ class DownloadFormPage extends StatelessWidget {
   }
 }
 
-class DownloadFormView extends ConsumerStatefulWidget {
+class DownloadFormView extends StatefulWidget {
   const DownloadFormView({super.key});
 
   @override
-  ConsumerState<DownloadFormView> createState() => _DownloadFormViewState();
+  State<DownloadFormView> createState() => _DownloadFormViewState();
 }
 
-class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
+class _DownloadFormViewState extends State<DownloadFormView> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   @override
@@ -56,13 +53,6 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
     if (path != null) {
       _formKey.currentState?.fields[DownloadFormConst.folderpath]
           ?.didChange(path);
-    }
-  }
-
-  void onChangeUrl(String url) async {
-    if (_formKey.currentState?.fields[DownloadFormConst.ytUrl]?.validate() ??
-        false) {
-      ref.read(urlPod.notifier).update((state) => url);
     }
   }
 
@@ -122,8 +112,7 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView> {
       body: FormBuilder(
         key: _formKey,
         child: <Widget>[
-          const ThumbnailViewer(),
-          YtUrlField(onChange: onChangeUrl),
+          YtUrlField(),
           FolderPickerField(onFolderClicked: selectFolder),
           <Widget>[
             const StartDurationField().flexible(),

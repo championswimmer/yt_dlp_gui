@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yt_dlp_gui/core/theme/theme.dart';
 import 'package:yt_dlp_gui/features/download_form/view/download_form_page.dart';
 
@@ -8,7 +7,7 @@ void main() {
   if (kReleaseMode) {
     debugPrint = (String? message, {int? wrapWidth}) {};
   }
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
