@@ -123,8 +123,9 @@ class _DownloadFormViewState extends ConsumerState<DownloadFormView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'Yt downloader'.text.make(),
+        title: 'YouTube Downloader'.text.make(),
         automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: FormBuilder(
         key: _formKey,
